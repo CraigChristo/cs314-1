@@ -1,3 +1,4 @@
+package edu.SouthernComfort;
 
 
 public enum PermType

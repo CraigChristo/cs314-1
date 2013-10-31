@@ -1,3 +1,4 @@
+package edu.SouthernComfort;
 /*
  * @file: Library.java
  * @purpose: consists of Library properties and actions, including playlist
