@@ -1,4 +1,3 @@
-package edu.SouthernComfort;
 /*
  * @file: Library.java
  * @purpose: consists of Library properties and actions, including playlist
@@ -291,8 +290,8 @@ public class Library implements Iterable<Song>
 
 		else {
 			Pair<borrowSetting, Integer> curr = getSongBorrowLimit(destUser, song);
-			
-			this.setBorrowLimit(destUser, song, curr.snd--, curr.fst);
+			curr.snd--;
+			this.setBorrowLimit(destUser, song, curr.snd, curr.fst);
 			this.loaned.add(song);
 			
 			int limit = getSongPlayLimit(destUser, song);
@@ -348,6 +347,7 @@ public class Library implements Iterable<Song>
 	public void stop()
 	{
 		//check if borrowed
+		if (listeningTo == null) return;
 		if (isBorrowed(listeningTo)){
 			if (this.borrowed.get(listeningTo).fst == 0) 
 			{
