@@ -3,6 +3,7 @@
  * @purpose: consists of Library properties and actions, including playlist
  */
 
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -64,41 +65,50 @@ public class Library implements Iterable<Song>
     	this.waitingList = new Hashtable<Song, Queue<User>>();
 		
 		this.friendBorrowLimit = new Hashtable<String, Dictionary<String, Pair<borrowSetting, Integer>>>();
+		this.friendPlayLimit = new Hashtable<String, Dictionary<String, Integer>>();
 		
 		//Set default borrow limit to 3 borrows
 		setDefaultBorrowLimit(3, borrowSetting.LIMIT);
+		setDefaultPlayLimit(3);
 	}
 	
 	public User getOwner() 
 	{
 		return this.owner;
 	}
-        
-        public List<Song> getOwnedSongs()
-        {
-            return owned;
-        }
 
 	public void setDefaultBorrowLimit(int limit, borrowSetting setting)
 	{
 		setBorrowLimit("default", "default", limit, setting);
 	}
-	
+	public void setDefaultPlayLimit(int limit)
+	{
+		setPlayLimit("default","default", limit);
+	}
 	public void setSongDefaultBorrowLimit(Song song, int limit, borrowSetting setting)
 	{
 		setBorrowLimit("default", song.getName(), limit, setting);
 	}
-	
+	public void setSongDefaultPlayLimit(Song song, int limit)
+	{
+		setPlayLimit("default", song.getName(), limit);
+	}
 	public void setFriendDefaultBorrowLimit(User friend, int limit, borrowSetting setting)
 	{
 		setBorrowLimit(friend.getName(), "default", limit, setting);
 	}
-	
+	public void setFriendDefaultPlayLimit(User friend, int limit)
+	{
+		setPlayLimit(friend.getName(), "default", limit);
+	}
 	public Pair<borrowSetting, Integer> getDefaultBorrowLimit()
 	{
 		return getSongBorrowLimit("default","default");
 	}
-	
+	public int getDefaultPlayLimit()
+	{
+		return getSongPlayLimit("default","default");
+	}
 	public void setBorrowLimit(User friend, Song song, int limit, borrowSetting setting)
 	{
 		setBorrowLimit(friend.getName(), song.getName(), limit, setting);
@@ -110,7 +120,16 @@ public class Library implements Iterable<Song>
 				createBorrowMap(friendName);
 		getBorrowMap(friendName).put(songName, new Pair<borrowSetting, Integer>(setting, limit));
 	}
-	
+	public void setPlayLimit (User friend, Song song, int limit)
+	{
+		setPlayLimit(friend.getName(), song.getName(),limit);
+	}
+	public void setPlayLimit (String friendName, String songName, int limit)
+	{
+		if (getPlayLimitMap(friendName) == null)
+				createPlayLimitMap(friendName);
+		getPlayLimitMap(friendName).put(songName, limit);
+	}
 	public Dictionary<String, Pair<borrowSetting, Integer>>  getBorrowMap(User friend)
 	{
 		return getBorrowMap(friend.getName());
@@ -123,12 +142,25 @@ public class Library implements Iterable<Song>
 		
 		return this.friendBorrowLimit.get(userName);		
 	}
-	
+	private Dictionary<String,Integer> getPlayLimitMap(User friend)
+	{
+		return getPlayLimitMap(friend.getName());
+	}
+	private Dictionary<String,Integer> getPlayLimitMap(String userName)
+	{
+		if (this.friendPlayLimit.get(userName) == null)
+			createPlayLimitMap(userName);
+		return this.friendPlayLimit.get(userName);
+		
+	}
 	private void createBorrowMap(String userName)
 	{
 		this.friendBorrowLimit.put(userName, new Hashtable<String, Pair<borrowSetting, Integer>>());
 	}
-	
+	private void createPlayLimitMap(String userName)
+	{
+		this.friendPlayLimit.put(userName, new Hashtable<String,Integer>());
+	}
 	public Pair<borrowSetting, Integer> getSongBorrowLimit(User user, Song song)
 	{
 		Pair<borrowSetting, Integer> limit = getSongBorrowLimit(user.getName(), song.getName());
@@ -159,26 +191,33 @@ public class Library implements Iterable<Song>
 		return getBorrowMap(userName).get(songName);
 	}
 	
-	private void createSongLimit(String userName, String songName) {
+	private void createSongLimit(String userName, String songName) 
+	{
 		Pair<borrowSetting, Integer> defaults = getDefaultBorrowLimit();
 		getBorrowMap(userName).put(songName, new Pair<borrowSetting, Integer>(defaults.fst, defaults.snd));
 	}
 	
-	public int getSongPlayLimit(User user, Song song) {
+	public int getSongPlayLimit(User user, Song song) 
+	{
 		return getSongPlayLimit(user.getName(), song.getName());
 	}
 	
-	public int getSongPlayLimit(String userName, String songName) {
+	public int getSongPlayLimit(String userName, String songName) 
+	{
 		Dictionary<String, Integer> dict = this.friendPlayLimit.get(userName);
 		
 		if (dict == null) {
 			dict = this.friendPlayLimit.get("default");
+			
 		}
-		
-		if (dict.get(songName) != null) return dict.get(songName);
-		else 
+		if (dict.get(songName) != null){
+			return dict.get(songName);
+		}
+		else {
 			if (dict.get("default") != null) return dict.get("default");
 			else return this.friendPlayLimit.get("default").get("default");
+		}
+			
 	}
 
 	//add song to user library
@@ -192,7 +231,35 @@ public class Library implements Iterable<Song>
 	{
 		this.owned.addAll(songs);
 	}
-	
+	public Song getOwnedSong(String songName, String artist)
+	{
+		for(int i = 0; i < owned.size(); i++)
+		{
+			if(owned.get(i).get("name").equalsIgnoreCase(songName) && 
+			   owned.get(i).get("artist").equalsIgnoreCase(artist)   )
+			{
+				return owned.get(i);
+			}
+		}
+		
+		return null;
+			
+	}
+	public Song getBorrowedSong(String songName, String artist)
+	{
+		List<Song> borrowed = this.borrowed();
+		for(int i = 0; i < borrowed.size(); i++)
+		{
+			if(borrowed.get(i).get("name").equalsIgnoreCase(songName) && 
+			   borrowed.get(i).get("artist").equalsIgnoreCase(artist)   )
+			{
+				return borrowed.get(i);
+			}
+		}
+		
+		return null;
+			
+	}
 	//remove a song from the user library
 	public void removeSong(Song b)
 	{
@@ -290,8 +357,7 @@ public class Library implements Iterable<Song>
 		}
 		//check if song was added to waitlist while listening
 		Queue<User> q = this.waitingList.get(listeningTo);
-		User borrower = this.borrowed.get(listeningTo).snd;
-		borrower.getLibrary().removeBorrowedSong(listeningTo);
+
 		
 		if (q != null) {
 			User next = q.remove();
@@ -387,7 +453,7 @@ public class Library implements Iterable<Song>
 	
 	public boolean isBorrowed(Song song)
 	{
-		return (this.borrowed.get(song) == null);
+		return (this.borrowed.get(song) != null);
 	}
 	
 	public boolean isLoaned(Song song)

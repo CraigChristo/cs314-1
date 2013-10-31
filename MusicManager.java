@@ -3,6 +3,7 @@
  * @purpose: manages music relationships and actions
  */
 
+
 import java.util.Collections;
 import java.util.Dictionary;
 import java.util.Hashtable;
@@ -26,7 +27,7 @@ public class MusicManager
 
     //private methods
     
-    public MusicManager() {
+    protected MusicManager() {
     	users = UserManager.instance();
     	globalLibrary = new Library();
     	borrowedDict = new Hashtable<User, Song>();

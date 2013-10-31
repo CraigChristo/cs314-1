@@ -3,6 +3,7 @@
  * @purpose: consists of song meta data
  */
 
+
 import java.util.Comparator;
 import java.util.Dictionary;
 import java.util.List;
@@ -77,7 +78,6 @@ public class Song
 		}
 		return false;
 	}
-        
 	
 	public static class SongComparator implements Comparator<Song> {
 		public String sortBy;

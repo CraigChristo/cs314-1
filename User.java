@@ -38,6 +38,7 @@ public class User
 			if (!this.isFriendsWith(friend)) {
 				this.myfriends.add(friend);
 				friend.getFriends().add(this);
+				//this.getLibrary().
 			}
 			
 			this.invites.remove(friend);
@@ -127,30 +128,5 @@ public class User
 		}
 		return false;
 	}
-        
-        @Override public String toString()
-        {
-            return username;
-        }
 	
-//	public JsonObject toJson() {
-//		JsonArrayBuilder friendsList = Json.createArrayBuilder();
-//		
-//		for (User friend : this.myfriends)
-//			friendsList.add(friend.getName());
-//		
-//		JsonArrayBuilder inviteList = Json.createArrayBuilder();
-//		
-//		for (User user : this.invites)
-//			inviteList.add(user.getName());
-//		
-//		return Json.createObjectBuilder()
-//    			.add("username", this.username)
-//    			.add("password", this.password)
-//    			.add("social", Json.createObjectBuilder()
-//    					.add("friends", friendsList.build())
-//						.add("invites", inviteList.build())
-//					)
-//				.build();
-//    }
 }

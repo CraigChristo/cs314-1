@@ -19,7 +19,7 @@ public class UserManager implements Iterable<User>
     private Hashtable<String, User> users;
 
     //private methods
-    public UserManager()
+    protected UserManager()
     {
     	users = new Hashtable<String, User>();
     }
