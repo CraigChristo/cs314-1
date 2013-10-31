@@ -23,6 +23,7 @@ public class UI extends JFrame {
     
     private MusicManager mMngr;
     private UserManager uMngr;
+    private User currUser;
     /**
      * Creates new form UI
      */
@@ -80,17 +81,19 @@ public class UI extends JFrame {
         friendsList = new javax.swing.JList();
         addFriendButton = new javax.swing.JButton();
         removeFriendButton = new javax.swing.JButton();
+        addFriendInput = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane6 = new javax.swing.JScrollPane();
-        searchList = new javax.swing.JList();
+        jList3 = new javax.swing.JList();
         friendsLibrariesRadio = new javax.swing.JRadioButton();
         allLibrariesRadio = new javax.swing.JRadioButton();
         ownLibraryRadio = new javax.swing.JRadioButton();
         searchInput = new javax.swing.JTextField();
         searchButton = new javax.swing.JButton();
+        borrowButton = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
-        jList2 = new javax.swing.JList();
+        invitesList = new javax.swing.JList();
         acceptButton = new javax.swing.JButton();
         declineButton = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
@@ -313,22 +316,33 @@ public class UI extends JFrame {
         jScrollPane4.setViewportView(friendsList);
 
         addFriendButton.setText("Add Friend");
+        addFriendButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addFriendButtonActionPerformed(evt);
+            }
+        });
 
         removeFriendButton.setText("RemoveFriend");
+        removeFriendButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeFriendButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout friendsPanelLayout = new javax.swing.GroupLayout(friendsPanel);
         friendsPanel.setLayout(friendsPanelLayout);
         friendsPanelLayout.setHorizontalGroup(
             friendsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(friendsPanelLayout.createSequentialGroup()
+                .addGap(187, 187, 187)
                 .addGroup(friendsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 512, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(friendsPanelLayout.createSequentialGroup()
-                        .addGap(187, 187, 187)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 512, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(friendsPanelLayout.createSequentialGroup()
-                        .addGap(329, 329, 329)
+                        .addGap(69, 69, 69)
+                        .addComponent(addFriendInput, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(addFriendButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(removeFriendButton)))
                 .addContainerGap(280, Short.MAX_VALUE))
         );
@@ -340,18 +354,19 @@ public class UI extends JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(friendsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(addFriendButton)
-                    .addComponent(removeFriendButton))
+                    .addComponent(removeFriendButton)
+                    .addComponent(addFriendInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(172, Short.MAX_VALUE))
         );
 
         tabs.addTab("Friends", friendsPanel);
 
-        searchList.setModel(new javax.swing.AbstractListModel() {
+        jList3.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane6.setViewportView(searchList);
+        jScrollPane6.setViewportView(jList3);
 
         searchGroup.add(friendsLibrariesRadio);
         friendsLibrariesRadio.setText("Friends Libraries");
@@ -364,6 +379,8 @@ public class UI extends JFrame {
 
         searchButton.setText("Search");
 
+        borrowButton.setText("Borrow Song");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -371,7 +388,9 @@ public class UI extends JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(312, 312, 312)
+                        .addGap(79, 79, 79)
+                        .addComponent(borrowButton, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(65, 65, 65)
                         .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(303, 303, 303)
@@ -389,9 +408,15 @@ public class UI extends JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 347, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 347, Short.MAX_VALUE)
+                        .addGap(18, 18, 18))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(159, 159, 159)
+                        .addComponent(borrowButton, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addComponent(searchInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(3, 3, 3)
                 .addComponent(searchButton)
@@ -405,12 +430,12 @@ public class UI extends JFrame {
 
         tabs.addTab("Search Libraries", jPanel1);
 
-        jList2.setModel(new javax.swing.AbstractListModel() {
+        invitesList.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane5.setViewportView(jList2);
+        jScrollPane5.setViewportView(invitesList);
 
         acceptButton.setText("Accept");
         acceptButton.addActionListener(new java.awt.event.ActionListener() {
@@ -420,6 +445,11 @@ public class UI extends JFrame {
         });
 
         declineButton.setText("Decline");
+        declineButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                declineButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -596,18 +626,20 @@ public class UI extends JFrame {
         String username = usernameInput.getText();
         char[] p = passwordInput.getPassword();
         String password = new String(p);
-        User u = uMngr.findUser(username);
-        if(u != null && u.checkPassword(password.toString()))
+        currUser = uMngr.findUser(username);
+        if(currUser != null && currUser.checkPassword(password.toString()))
         {
             this.tabs.setVisible(true);
             this.logoutPane.setVisible(true);
             this.loginPane.setVisible(false);
             
-            this.friendsList.setListData(uMngr.findUser(username).getFriendList().toArray());
+            this.friendsList.setListData(currUser.getFriendList().toArray());
             
-            this.ownedList.setListData(uMngr.findUser(username).getLibrary().owned().toArray());
-            this.borrowedList.setListData(uMngr.findUser(username).getLibrary().owned().toArray());
-            this.loanedList.setListData(uMngr.findUser(username).getLibrary().loaned().toArray());
+            this.ownedList.setListData(currUser.getLibrary().owned().toArray());
+            this.borrowedList.setListData(currUser.getLibrary().owned().toArray());
+            this.loanedList.setListData(currUser.getLibrary().loaned().toArray());
+            
+            this.invitesList.setListData(currUser.getInvites().toArray());
             
         } else
         {
@@ -622,8 +654,40 @@ public class UI extends JFrame {
     }//GEN-LAST:event_logoutButtonActionPerformed
 
     private void acceptButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_acceptButtonActionPerformed
-        // TODO add your handling code here:
+        User friend = (User)invitesList.getSelectedValue();
+        currUser.addFriend(friend);
+        friend.addFriend(currUser);
+        currUser.removeInvite(friend);
+        this.invitesList.setListData(currUser.getInvites().toArray());
+        friendsList.setListData(currUser.getFriendList().toArray());
     }//GEN-LAST:event_acceptButtonActionPerformed
+
+    private void addFriendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addFriendButtonActionPerformed
+        String f = addFriendInput.getText();
+        User friend = uMngr.findUser(f);
+        if(friend != null)
+        {
+            currUser.sendInvite(friend);
+            JOptionPane.showMessageDialog(this, "Invite sent");
+        } else
+        {
+            JOptionPane.showMessageDialog(this, "User does not exist");
+        }
+        
+    }//GEN-LAST:event_addFriendButtonActionPerformed
+
+    private void removeFriendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeFriendButtonActionPerformed
+//        System.out.println(friendsList.getSelectedValue());
+        User friend = uMngr.findUser((String)friendsList.getSelectedValue());
+        currUser.removeFriend(friend);
+        friend.removeFriend(currUser);
+        friendsList.setListData(currUser.getFriendList().toArray());
+    }//GEN-LAST:event_removeFriendButtonActionPerformed
+
+    private void declineButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_declineButtonActionPerformed
+        currUser.removeInvite((User)invitesList.getSelectedValue());
+        this.invitesList.setListData(currUser.getInvites().toArray());
+    }//GEN-LAST:event_declineButtonActionPerformed
 
         private void parseFile(String file)
     {
@@ -761,10 +825,12 @@ public class UI extends JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton acceptButton;
     private javax.swing.JButton addFriendButton;
+    private javax.swing.JTextField addFriendInput;
     private javax.swing.JButton addSongButton;
     private javax.swing.JRadioButton allLibrariesRadio;
     private javax.swing.JRadioButton anyoneRadio;
     private javax.swing.JRadioButton approvalRequiredRadio;
+    private javax.swing.JButton borrowButton;
     private javax.swing.JLabel borrowedLabel;
     private javax.swing.JList borrowedList;
     private javax.swing.JButton changeBorrowLimitButton;
@@ -777,12 +843,12 @@ public class UI extends JFrame {
     private javax.swing.JList friendsList;
     private javax.swing.JRadioButton friendsOnlyRadio;
     private javax.swing.JPanel friendsPanel;
+    private javax.swing.JList invitesList;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JList jList2;
-    private javax.swing.JList searchList;
+    private javax.swing.JList jList3;
     private javax.swing.JList jList4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
