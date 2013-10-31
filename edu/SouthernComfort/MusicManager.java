@@ -1,3 +1,4 @@
+package edu.SouthernComfort;
 /*
  * @file: MusicManager.java
  * @purpose: manages music relationships and actions
