@@ -101,6 +101,14 @@ public class User
 		return this.myfriends;
 	}
 	
+	public List<String> getFriendList() {
+		List<String> result = new LinkedList<String>();
+		for (User f : this.myfriends)
+			result.add(f.getName());
+		
+		return result;
+	}
+	
 	public Library getLibrary() {
 		return this.mylibrary;
 	}

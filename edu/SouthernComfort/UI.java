@@ -10,6 +10,7 @@ package edu.SouthernComfort;
  * @author danbox
  */
 
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import java.io.BufferedReader;
@@ -18,7 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @SuppressWarnings("serial")
-public class UI extends javax.swing.JFrame {
+public class UI extends JFrame {
     
     private MusicManager mMngr;
     private UserManager uMngr;
@@ -81,7 +82,7 @@ public class UI extends javax.swing.JFrame {
         removeFriendButton = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane6 = new javax.swing.JScrollPane();
-        jList3 = new javax.swing.JList();
+        searchList = new javax.swing.JList();
         friendsLibrariesRadio = new javax.swing.JRadioButton();
         allLibrariesRadio = new javax.swing.JRadioButton();
         ownLibraryRadio = new javax.swing.JRadioButton();
@@ -345,12 +346,12 @@ public class UI extends javax.swing.JFrame {
 
         tabs.addTab("Friends", friendsPanel);
 
-        jList3.setModel(new javax.swing.AbstractListModel() {
+        searchList.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane6.setViewportView(jList3);
+        jScrollPane6.setViewportView(searchList);
 
         searchGroup.add(friendsLibrariesRadio);
         friendsLibrariesRadio.setText("Friends Libraries");
@@ -602,9 +603,11 @@ public class UI extends javax.swing.JFrame {
             this.logoutPane.setVisible(true);
             this.loginPane.setVisible(false);
             
-            this.friendsList.setListData(uMngr.findUser(username).getFriends().toArray());
+            this.friendsList.setListData(uMngr.findUser(username).getFriendList().toArray());
+            
             this.ownedList.setListData(uMngr.findUser(username).getLibrary().owned().toArray());
-//            this.borrowedList.setListdata(uMngr.findUser(username).getLibrary().g);
+            this.borrowedList.setListData(uMngr.findUser(username).getLibrary().owned().toArray());
+            this.loanedList.setListData(uMngr.findUser(username).getLibrary().loaned().toArray());
             
         } else
         {
@@ -779,7 +782,7 @@ public class UI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JList jList2;
-    private javax.swing.JList jList3;
+    private javax.swing.JList searchList;
     private javax.swing.JList jList4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
