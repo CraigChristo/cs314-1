@@ -9,6 +9,7 @@
  * @author danbox
  */
 
+import javax.swing.JOptionPane;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.HashMap;
@@ -40,7 +41,7 @@ public class UI extends javax.swing.JFrame {
 
         libraryAvailabilityGroup = new javax.swing.ButtonGroup();
         songPermGroup = new javax.swing.ButtonGroup();
-        buttonGroup1 = new javax.swing.ButtonGroup();
+        searchGroup = new javax.swing.ButtonGroup();
         tabs = new javax.swing.JTabbedPane();
         libraryPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -348,10 +349,13 @@ public class UI extends javax.swing.JFrame {
         });
         jScrollPane6.setViewportView(jList3);
 
+        searchGroup.add(friendsLibrariesRadio);
         friendsLibrariesRadio.setText("Friends Libraries");
 
+        searchGroup.add(allLibrariesRadio);
         allLibrariesRadio.setText("All Libraries");
 
+        searchGroup.add(ownLibraryRadio);
         ownLibraryRadio.setText("Own Library");
 
         searchButton.setText("Search");
@@ -405,6 +409,11 @@ public class UI extends javax.swing.JFrame {
         jScrollPane5.setViewportView(jList2);
 
         acceptButton.setText("Accept");
+        acceptButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                acceptButtonActionPerformed(evt);
+            }
+        });
 
         declineButton.setText("Decline");
 
@@ -580,15 +589,24 @@ public class UI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
-//        String username = usernameInput.getSelectedText();
-//        User u = uMngr.findUser(username);
-//        if(u != null)
-//        {
+        String username = usernameInput.getText();
+        char[] p = passwordInput.getPassword();
+        String password = new String(p);
+        User u = uMngr.findUser(username);
+        if(u != null && u.checkPassword(password.toString()))
+        {
             this.tabs.setVisible(true);
             this.logoutPane.setVisible(true);
             this.loginPane.setVisible(false);
-            this.friendsList.setListData(uMngr.findUser("jweston").getFriends().toArray());
-//        }
+            
+            this.friendsList.setListData(uMngr.findUser(username).getFriends().toArray());
+            this.ownedList.setListData(uMngr.findUser(username).getLibrary().getOwnedSongs().toArray());
+//            this.borrowedList.setListdata(uMngr.findUser(username).getLibrary().g);
+            
+        } else
+        {
+            JOptionPane.showMessageDialog(this, "Invalid username or password", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_loginButtonActionPerformed
 
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
@@ -596,6 +614,10 @@ public class UI extends javax.swing.JFrame {
         this.loginPane.setVisible(true);
         this.logoutPane.setVisible(false);
     }//GEN-LAST:event_logoutButtonActionPerformed
+
+    private void acceptButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_acceptButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_acceptButtonActionPerformed
 
         private void parseFile(String file) //TODO
     {
@@ -722,6 +744,7 @@ public class UI extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 UI ui = new UI();
+                ui.setTitle("Music Sharing Application");
                 ui.parseFile("test");
                 ui.setLocationRelativeTo(null);
                 ui.setVisible(true);
@@ -741,7 +764,6 @@ public class UI extends javax.swing.JFrame {
     private javax.swing.JRadioButton approvalRequiredRadio;
     private javax.swing.JLabel borrowedLabel;
     private javax.swing.JList borrowedList;
-    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton changeBorrowLimitButton;
     private javax.swing.JButton createPlaylistButton;
     private javax.swing.JButton declineButton;
@@ -788,6 +810,7 @@ public class UI extends javax.swing.JFrame {
     private javax.swing.JButton playButton;
     private javax.swing.JButton removeFriendButton;
     private javax.swing.JButton searchButton;
+    private javax.swing.ButtonGroup searchGroup;
     private javax.swing.JTextField searchInput;
     private javax.swing.JButton songPermButton;
     private javax.swing.ButtonGroup songPermGroup;

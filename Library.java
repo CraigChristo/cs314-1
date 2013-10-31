@@ -73,6 +73,11 @@ public class Library implements Iterable<Song>
 	{
 		return this.owner;
 	}
+        
+        public List<Song> getOwnedSongs()
+        {
+            return owned;
+        }
 
 	public void setDefaultBorrowLimit(int limit, borrowSetting setting)
 	{
