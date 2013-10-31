@@ -333,7 +333,7 @@ public class Library implements Iterable<Song>
 	{
 		if (this.listeningTo != null)
 			this.stop();
-		
+		if(!(isBorrowed(song)||isOwned(song))) return;
 		if (isBorrowed(song)) {
 			int limit = this.borrowed.get(song).fst;
 			User from = this.borrowed.get(song).snd;
