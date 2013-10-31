@@ -1,9 +1,3 @@
-
-
-import java.util.List;
-import java.util.Map;
-
-
 /*
  * @file: UI.java
  * @purpose: User interface for PA2
@@ -11,6 +5,7 @@ import java.util.Map;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.util.Hashtable;
 
 public class UI
 {
@@ -57,8 +52,10 @@ public class UI
     }
     
     //parses input file to create users on songs
-    private void parseFile(String file) //TODO
+    private void parseFile(String file)
     {
+    	Hashtable<String, String[]> friendsToAdd = new Hashtable<String, String[]>();
+    	
         try
         {
             BufferedReader reader = new BufferedReader(new FileReader("testfile"));
@@ -86,6 +83,7 @@ public class UI
 
                 //create user
                 User u = new User(user, pw);
+                uMngr.addUser(u);
 
                 //song metadata
                 lowerBound = ++upperBound;
@@ -120,14 +118,26 @@ public class UI
                 upperBound = line.indexOf(')', lowerBound);
                 String friendsFull = line.substring(lowerBound, upperBound);
                 String[] friends = friendsFull.split(",");
-                for(int i = 0; i < friends.length; ++i)
-                {
-                    User friend = uMngr.findUser(friends[i]);
-                    if(friend != null)
-                        u.addFriend(friend);
-                }
                 
+                //Not all users are loaded yet
+                //Wait to add friends
+                friendsToAdd.put(user, friends);
             }
+            
+            reader.close();
+            
+            for (String un : friendsToAdd.keySet()) {
+            	String[] friends = friendsToAdd.get(un);
+            	User u = uMngr.findUser(un);
+            	
+	            for(int i = 0; i < friends.length; ++i)
+	            {
+	                User friend = uMngr.findUser(friends[i]);
+	                if(friend != null)
+	                    u.addFriend(friend);
+	            }
+            }
+            
         } catch(Exception e)
         {
             e.printStackTrace();

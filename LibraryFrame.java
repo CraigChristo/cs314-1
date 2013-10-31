@@ -8,6 +8,7 @@
  *
  * @author danbox
  */
+@SuppressWarnings("serial")
 public class LibraryFrame extends javax.swing.JFrame {
 
     /**
