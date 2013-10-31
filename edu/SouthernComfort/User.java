@@ -52,6 +52,20 @@ public class User
 		if (!this.invites.contains(a))
 			this.invites.add(a);
 	}
+        
+        public void removeInvite(User a)
+        {
+//            if(this.invites.contains(a))
+                this.invites.remove(a);
+        }
+        
+        public void removeFriend(User a)
+        {
+            if(this.isFriendsWith(a))
+            {
+                this.myfriends.remove(a);
+            }
+        }
 	
 	public void sendInvite(User b)
 	{
@@ -101,6 +115,19 @@ public class User
 		return this.myfriends;
 	}
 	
+	public List<String> getFriendList() {
+		List<String> result = new LinkedList<String>();
+		for (User f : this.myfriends)
+			result.add(f.getName());
+		
+		return result;
+	}
+        
+        public List<User> getInvites()
+        {
+            return this.invites;
+        }
+	
 	public Library getLibrary() {
 		return this.mylibrary;
 	}
@@ -129,5 +156,10 @@ public class User
 		}
 		return false;
 	}
+        
+        @Override public String toString()
+        {
+            return username;
+        }
 	
 }
