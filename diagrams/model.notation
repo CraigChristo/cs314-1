@@ -2782,7 +2782,7 @@
       <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_nx_FsUKFEeOSG9OL4oa5MQ" id="(0.9375,0.42528735632183906)"/>
     </edges>
   </notation:Diagram>
-  <notation:Diagram xmi:id="_ugYQUEKFEeOSG9OL4oa5MQ" type="PapyrusUMLSequenceDiagram" name="UseCase: ManageSongAvailibility" measurementUnit="Pixel">
+  <notation:Diagram xmi:id="_ugYQUEKFEeOSG9OL4oa5MQ" type="PapyrusUMLSequenceDiagram" name="UseCase: ManageSongBorrowability" measurementUnit="Pixel">
     <children xmi:type="notation:Shape" xmi:id="_ugYQUUKFEeOSG9OL4oa5MQ" type="2001" fontName="Lucida Grande" fontHeight="11" lineColor="0">
       <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_ugYQUkKFEeOSG9OL4oa5MQ" source="ShadowFigure">
         <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_ugYQU0KFEeOSG9OL4oa5MQ" key="ShadowFigure_Value" value="false"/>
