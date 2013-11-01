@@ -535,6 +535,11 @@ public class Library implements Iterable<Song>
 	public Library getPlaylist(String name) {
 		return this.playlists.get(name);
 	}
+        
+        public boolean isLIMIT(borrowSetting b)
+        {
+            return b == borrowSetting.LIMIT;
+        }
 	
 	public enum borrowSetting {
         NO, LIMIT, APPROVE

@@ -980,9 +980,11 @@ private void songPermButtonActionPerformed(java.awt.event.ActionEvent evt) {//GE
         {
             JTextField friendName = new JTextField();
             JTextField limit = new JTextField();
+            JTextField plimit = new JTextField();
             Object[] inputs = {
                 "Friend Name", friendName,
-                "Borrow Limit", limit
+                "Borrow Limit", limit,
+                "Play Limit", plimit
             };
             JOptionPane.showMessageDialog(this, inputs);
             if(!currUser.isFriendsWith(uMngr.findUser(friendName.getText())))
@@ -990,13 +992,78 @@ private void songPermButtonActionPerformed(java.awt.event.ActionEvent evt) {//GE
                JOptionPane.showMessageDialog(this,"You are not friends with " + friendName.getText()); 
             } else
             {
-                if(!limit.getText().matches("[-+]?\\d*\\.?\\d+"))
+                if(!limit.getText().matches("[-+]?\\d*\\.?\\d+") || !plimit.getText().matches("[-+]?\\d*\\.?\\d+"))
                 {
                     JOptionPane.showMessageDialog(this, "Invalid limit");
                 } else
                 {
-                    
+                    System.out.println(Integer.parseInt(limit.getText()));
                     currUser.getLibrary().setBorrowLimit(friendName.getText(), s.getName(), Integer.parseInt(limit.getText()), Library.borrowSetting.APPROVE);
+                    currUser.getLibrary().setPlayLimit(friendName.getText(), s.getName(), Integer.parseInt(plimit.getText()));
+                }
+            }
+//            currUser.getLibrary().set
+        
+//            currUser.getLibrary().set
+        }
+    } else if(noApprovalRadio.isSelected())
+    {
+        for(Song s : selected)
+        {
+            JTextField friendName = new JTextField();
+            JTextField limit = new JTextField();
+            JTextField plimit = new JTextField();
+            Object[] inputs = {
+                "Friend Name", friendName,
+                "Borrow Limit", limit,
+                "Play Limit", plimit
+            };
+            JOptionPane.showMessageDialog(this, inputs);
+            if(!currUser.isFriendsWith(uMngr.findUser(friendName.getText())))
+            {
+               JOptionPane.showMessageDialog(this,"You are not friends with " + friendName.getText()); 
+            } else
+            {
+                if(!limit.getText().matches("[-+]?\\d*\\.?\\d+") || !plimit.getText().matches("[-+]?\\d*\\.?\\d+"))
+                {
+                    JOptionPane.showMessageDialog(this, "Invalid limit");
+                } else
+                {
+                    System.out.println(Integer.parseInt(limit.getText()));
+                    currUser.getLibrary().setBorrowLimit(friendName.getText(), s.getName(), Integer.parseInt(limit.getText()), Library.borrowSetting.LIMIT);
+                    currUser.getLibrary().setPlayLimit(friendName.getText(), s.getName(), Integer.parseInt(plimit.getText()));
+                }
+            }
+//            currUser.getLibrary().set
+        }
+    }
+    else if(notBorrowableRadio.isSelected())
+    {
+        for(Song s : selected)
+
+        {
+            JTextField friendName = new JTextField();
+            JTextField limit = new JTextField();
+            JTextField plimit = new JTextField();
+            Object[] inputs = {
+                "Friend Name", friendName,
+                "Borrow Limit", limit,
+                "Play Limit", plimit
+            };
+            JOptionPane.showMessageDialog(this, inputs);
+            if(!currUser.isFriendsWith(uMngr.findUser(friendName.getText())))
+            {
+               JOptionPane.showMessageDialog(this,"You are not friends with " + friendName.getText()); 
+            } else
+            {
+                if(!limit.getText().matches("[-+]?\\d*\\.?\\d+") || !plimit.getText().matches("[-+]?\\d*\\.?\\d+"))
+                {
+                    JOptionPane.showMessageDialog(this, "Invalid limit");
+                } else
+                {
+                    System.out.println(Integer.parseInt(limit.getText()));
+                    currUser.getLibrary().setBorrowLimit(friendName.getText(), s.getName(), Integer.parseInt(limit.getText()), Library.borrowSetting.NO);
+                    currUser.getLibrary().setPlayLimit(friendName.getText(), s.getName(), Integer.parseInt(plimit.getText()));
                 }
             }
 //            currUser.getLibrary().set
@@ -1029,8 +1096,17 @@ private void borrowButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
             {
                 if(f.getLibrary().checkIfBorrowable(currUser, s))
                 {
-                    f.getLibrary().createBorrowRequest(currUser, s);
-                    JOptionPane.showMessageDialog(this, "Request being sent to " + f);
+                    
+                    if(f.getLibrary().isLIMIT(f.getLibrary().getSongBorrowLimit(currUser, s).fst))
+                    {
+                        if(f.getLibrary().isLoaned(s))
+                            JOptionPane.showMessageDialog(this, "You have been added to wait list");
+                        currUser.getLibrary().sendBorrow(f, s);
+                    } else
+                    {
+                        f.getLibrary().createBorrowRequest(currUser, s);
+                        JOptionPane.showMessageDialog(this, "Request being sent to " + f);
+                    }
                 } else
                     JOptionPane.showMessageDialog(this, "You do not have the permissions to borrow " + s.getName());
             }
@@ -1104,6 +1180,7 @@ private void stopButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
         currUser.getLibrary().stop();
         currentlyPlayingLabel.setText("");
     }
+    this.borrowedList.setListData(currUser.getLibrary().borrowed().toArray());
 }//GEN-LAST:event_stopButtonActionPerformed
 
 private void takeBackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_takeBackButtonActionPerformed
