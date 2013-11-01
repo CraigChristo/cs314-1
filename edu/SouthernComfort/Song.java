@@ -1,4 +1,6 @@
+
 package cs314.edu.SouthernComfort;
+
 /*
  * @file: Song.java
  * @purpose: consists of song meta data

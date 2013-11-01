@@ -1,4 +1,6 @@
+
 package cs314.edu.SouthernComfort;
+
 /*
  * @file: UserManager.java
  * @purpose: manages user relationships and actions

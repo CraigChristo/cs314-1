@@ -1,4 +1,6 @@
+
 package cs314.edu.SouthernComfort;
+
 
 public class Pair<F, S> {
     public F fst; //first member of pair

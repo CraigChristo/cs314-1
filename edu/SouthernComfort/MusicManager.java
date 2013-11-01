@@ -1,4 +1,6 @@
+
 package cs314.edu.SouthernComfort;
+
 /*
  * @file: MusicManager.java
  * @purpose: manages music relationships and actions
@@ -24,14 +26,12 @@ public class MusicManager
     //private data members
 	private UserManager users;
     private Library globalLibrary;
-    private Dictionary<User, Song> borrowedDict;
 
     //private methods
     
     protected MusicManager() {
     	users = UserManager.instance();
     	globalLibrary = new Library();
-    	borrowedDict = new Hashtable<User, Song>();
     }
     
 	//public methods
@@ -196,11 +196,14 @@ public class MusicManager
 	}
 	
 	//take back a borrowed song from the users, Song argument is from the user's library
-	public void takeBack(User user, Song song)
+	public void takeBack(User borrower, Song song)
 	{
-		if(user.getLibrary().isBorrowed(song)) {
-			if(user.getLibrary().isPlayingSong()) user.getLibrary().stop();
-			user.getLibrary().returnBorrow(user, song);
+		if(borrower.getLibrary().isBorrowed(song)) {
+			if(borrower.getLibrary().isPlayingSong()) borrower.getLibrary().stop();
+			
+			User owner = borrower.getLibrary().getOwnerofBorrowed(song);
+			
+			owner.getLibrary().returnBorrow(borrower, song);
 		}
 		//else song not borrowed
 	}
