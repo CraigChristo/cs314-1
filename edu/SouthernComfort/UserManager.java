@@ -1,4 +1,4 @@
-package edu.SouthernComfort
+package cs314.edu.SouthernComfort;
 /*
  * @file: UserManager.java
  * @purpose: manages user relationships and actions
@@ -31,6 +31,11 @@ public class UserManager implements Iterable<User>
     	if (me == null)
     		me = new UserManager();
     	return me;
+    }
+    
+    public Hashtable<String, User> getUsers()
+    {
+        return users;
     }
     
     public void addUser(User u)

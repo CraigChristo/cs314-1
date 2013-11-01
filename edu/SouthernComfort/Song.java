@@ -1,4 +1,4 @@
-package edu.SouthernComfort
+package cs314.edu.SouthernComfort;
 /*
  * @file: Song.java
  * @purpose: consists of song meta data
@@ -62,7 +62,7 @@ public class Song
 	public String getName() {
 		return this.name;
 	}
-	
+        
 	public int getYear() {
 		return Integer.valueOf(this.data.get("year"));
 	}

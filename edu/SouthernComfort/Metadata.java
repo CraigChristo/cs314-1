@@ -1,4 +1,4 @@
-package edu.SouthernComfort
+package cs314.edu.SouthernComfort;
 
 import java.util.Hashtable;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package edu.SouthernComfort
+package cs314.edu.SouthernComfort;
 /*
  * @file: Library.java
  * @purpose: consists of Library properties and actions, including playlist
@@ -26,6 +26,7 @@ public class Library implements Iterable<Song>
 	private List<Song> owned;
 	private Map<Song, Pair<Integer, User>> borrowed;
 	private List<Song> loaned;
+        private List<Pair<User, Song>> borrowRequests;
 	
 	private Map<String, Library> playlists;
 	private User owner;
@@ -55,6 +56,7 @@ public class Library implements Iterable<Song>
 	private void makeLibrary(Object owner) {
 		makeLibrary(owner, new ArrayList<Song>());
 	}
+        
 	
 	private void makeLibrary(Object owner, List<Song> songs) {
 		this.owned = songs;
@@ -67,16 +69,56 @@ public class Library implements Iterable<Song>
 		
 		this.friendBorrowLimit = new Hashtable<String, Dictionary<String, Pair<borrowSetting, Integer>>>();
 		this.friendPlayLimit = new Hashtable<String, Dictionary<String, Integer>>();
+                this.borrowRequests = new LinkedList<Pair<User, Song>>();
 		
 		//Set default borrow limit to 3 borrows
 		setDefaultBorrowLimit(3, borrowSetting.LIMIT);
 		setDefaultPlayLimit(3);
 	}
 	
+        public void createBorrowRequest(User friend, Song song)
+        {
+            borrowRequests.add(new Pair<User, Song>(friend, song));
+        }
+        
+        public void removeBorrowRequest(User friend, Song song)
+        {
+            Pair<User, Song> p = new Pair<User, Song>(friend, song);
+            removeBorrowRequest(p);
+        }
+        
+        public void removeBorrowRequest(Pair<User, Song> p)
+        {
+            borrowRequests.remove(p);
+        }
+        
+        public void acceptBorrowRequest(User friend, Song song)
+        {
+            sendBorrow(friend, song);
+            removeBorrowRequest(friend, song);
+        }
+        
+        public void acceptBorrowRequest(Pair<User, Song> p)
+        {
+            sendBorrow(p.fst, p.snd);
+            removeBorrowRequest(p);
+        }
+        
+        public List<Pair<User, Song>> getBorrowRequests()
+        {
+            return borrowRequests;
+        }
+        
 	public User getOwner() 
 	{
 		return this.owner;
 	}
+        
+        public Map<String, Library> getPlayLists()
+        {
+            return playlists;
+        }
+        
 
 	public void setDefaultBorrowLimit(int limit, borrowSetting setting)
 	{
@@ -330,6 +372,10 @@ public class Library implements Iterable<Song>
 		this.playlists.put(name, new Library(songs));
 	}
 	
+        public void removePlaylist(String name)
+        {
+            this.playlists.remove(name);
+        }
 	public void play(Song song)
 	{
 		if (this.listeningTo != null)
