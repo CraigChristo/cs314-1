@@ -98,15 +98,19 @@
 
 ================ 
 
-#UseCase: ManageSongBorowability  
+
+#UseCase: ManageSongBorrowability  
 **Actor**: User  
 
 ###Main flow  
-    1.  User enters Song name and [always, approved, none]
-    2. System searches library for song, gets Song
-    3. System sets Song borrowability
+    1. User selects manage song borrowable status
+    2. System displays library
+    3. System displays list of friends
+    3. User enters Song name or default, friend or default, [always, approved, none], and a length of borrow
+    4. System searches library for song, gets Song
+    5. System sets Song borrowability
 
 ###Alt. Flow
-    2a. Song doesn't exist, notify user
-    3a. Bad value for borrowability, notify user
-    3b. Song is already borrowed, revoke the song, set borrowability
+    4a. Song doesn't exist, notify user
+    4b. Bad value for borrowability or length, notify user
+    5a. If song has a waiting list, clear waiting list
