@@ -98,20 +98,6 @@
 
 ================ 
 
-#UseCase: ManageSongAvailibility 
-**Actor**: User  
-
-###Main flow  
-    1.  User enters Friend, borrowable, lengthOfBorrow
-    2. If friend is registered, System gets friendship
-    3. System sets availability of library for friendship
-
-###Alt. Flow
-    2a. Friend doesn't exist, notify user
-    3a. Bad values for borrowable, lengthOfBorrow, notify user
-
-============ 
-
 #UseCase: ManageSongBorowability  
 **Actor**: User  
 
