@@ -266,8 +266,7 @@ public class UI extends JFrame {
                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, libraryPanelLayout.createSequentialGroup()
                                         .addComponent(playButton)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(stopButton)))
-                                .addGap(70, 70, 70)))
+                                        .addComponent(stopButton)))))
                         .addGroup(libraryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(libraryPanelLayout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -280,8 +279,7 @@ public class UI extends JFrame {
                                         .addGap(81, 81, 81))))
                             .addGroup(libraryPanelLayout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(libraryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(libraryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(libraryPanelLayout.createSequentialGroup()
                                         .addComponent(anyoneRadio)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -290,7 +288,8 @@ public class UI extends JFrame {
                                             .addGroup(libraryPanelLayout.createSequentialGroup()
                                                 .addComponent(friendsOnlyRadio)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(noAvailabilityRadio)))))))))
+                                                .addComponent(noAvailabilityRadio))))
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addGap(65, 65, 65))
         );
         libraryPanelLayout.setVerticalGroup(
@@ -320,21 +319,25 @@ public class UI extends JFrame {
                             .addComponent(playButton)
                             .addComponent(stopButton))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(libraryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(currentlyPlayingLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(createPlaylistButton))
-                .addGap(68, 68, 68)
                 .addGroup(libraryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(songPermButton)
-                    .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(libraryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(approvalRequiredRadio)
-                    .addComponent(noApprovalRadio)
-                    .addComponent(notBorrowableRadio)
-                    .addComponent(anyoneRadio)
-                    .addComponent(friendsOnlyRadio)
-                    .addComponent(noAvailabilityRadio))
+                    .addGroup(libraryPanelLayout.createSequentialGroup()
+                        .addGroup(libraryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(currentlyPlayingLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(createPlaylistButton))
+                        .addGap(68, 68, 68)
+                        .addComponent(songPermButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(libraryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(approvalRequiredRadio)
+                            .addComponent(noApprovalRadio)
+                            .addComponent(notBorrowableRadio)))
+                    .addGroup(libraryPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(libraryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(anyoneRadio)
+                            .addComponent(friendsOnlyRadio)
+                            .addComponent(noAvailabilityRadio))))
                 .addContainerGap())
         );
 
@@ -1101,7 +1104,7 @@ private void borrowButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
                     {
                         if(f.getLibrary().isLoaned(s))
                             JOptionPane.showMessageDialog(this, "You have been added to wait list");
-                        currUser.getLibrary().sendBorrow(f, s);
+                        f.getLibrary().sendBorrow(currUser, s);
                     } else
                     {
                         f.getLibrary().createBorrowRequest(currUser, s);
@@ -1112,6 +1115,7 @@ private void borrowButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
             }
         }
     }
+    this.borrowedList.setListData(currUser.getLibrary().borrowed().toArray());
 //    this.loanedList.setListData(currUser.getLibrary().loaned().toArray());
     
 }//GEN-LAST:event_borrowButtonActionPerformed
@@ -1195,7 +1199,11 @@ private void takeBackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GE
         {
             if(f.getLibrary().borrowed().contains(selected))
                 mMngr.takeBack(f, selected);
+            
         }
+//        System.out.println(selected);
+        
+        
     }
     this.loanedList.setListData(currUser.getLibrary().loaned().toArray());
 }//GEN-LAST:event_takeBackButtonActionPerformed
