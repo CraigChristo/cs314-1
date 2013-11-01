@@ -1,4 +1,4 @@
-package edu.SouthernComfort
+package edu.SouthernComfort;
 /*
  * @file: Library.java
  * @purpose: consists of Library properties and actions, including playlist
@@ -230,8 +230,11 @@ public class Library implements Iterable<Song>
 	
 	public void addSongs(Collection<Song> songs)
 	{
-		this.owned.addAll(songs);
+		for (Song s : songs)
+			if (!this.contains(s))
+				owned.add(s);
 	}
+	
 	public Song getOwnedSong(String songName, String artist)
 	{
 		for(int i = 0; i < owned.size(); i++)
@@ -246,6 +249,10 @@ public class Library implements Iterable<Song>
 		return null;
 			
 	}
+	public User getOwnerofBorrowed(Song song) {
+		return this.borrowed.get(song).snd;
+	}
+	
 	public Song getBorrowedSong(String songName, String artist)
 	{
 		List<Song> borrowed = this.borrowed();
@@ -327,7 +334,10 @@ public class Library implements Iterable<Song>
 	//create a playlist for the user based on a selection of songs
 	public void createPlaylist(String name, List<Song> songs)
 	{
-		this.playlists.put(name, new Library(songs));
+		if (this.playlists.get(name) != null) 
+			this.playlists.get(name).addSongs(songs);
+		else
+			this.playlists.put(name, new Library(songs));
 	}
 	
 	public void play(Song song)

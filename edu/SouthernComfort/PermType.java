@@ -1,4 +1,4 @@
-package edu.SouthernComfort
+package edu.SouthernComfort;
 
 public enum PermType
 {

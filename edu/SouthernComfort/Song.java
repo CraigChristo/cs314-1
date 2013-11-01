@@ -1,4 +1,4 @@
-package edu.SouthernComfort
+package edu.SouthernComfort;
 /*
  * @file: Song.java
  * @purpose: consists of song meta data

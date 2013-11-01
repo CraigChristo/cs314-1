@@ -1,4 +1,4 @@
-package edu.SouthernComfort
+package edu.SouthernComfort;
 /*
  * @file: User.java
  * @purpose: consists of User properties and actions

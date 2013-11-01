@@ -1,4 +1,4 @@
-package edu.SouthernComfort
+package edu.SouthernComfort;
 
 public class Pair<F, S> {
     public F fst; //first member of pair
