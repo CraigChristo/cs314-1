@@ -755,31 +755,31 @@ public class UI extends JFrame {
                 }
             }   
             playListList.setListData(tmp.toArray());
+            
+            Hashtable<String, User> users = uMngr.getUsers();
+            Set<String> keys = users.keySet();
+            Vector<Song> tmp = new Vector<Song>();
+            for(String key : keys)
+            {
+//                tmp.add(key);
+                User u = uMngr.findUser(key);
+                if(u.getPerm() != PermType.NONE || (u.getPerm() == PermType.FRIENDS && !currUser.isFriendsWith(u)))
+                {
+                    List<Song> owned = u.getLibrary().owned();
+                    for(Song s : owned)
+                    {
+        //                tmp.add(" " + s.toString());
+                        tmp.add(s);
+                    }
+                }
+                this.searchList.setListData(tmp.toArray());
+            }
+            
+            this.borrowRequestList.setListData(currUser.getLibrary().getBorrowRequests().toArray());
         } else
         {
             JOptionPane.showMessageDialog(this, "Invalid username or password", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        
-        Hashtable<String, User> users = uMngr.getUsers();
-        Set<String> keys = users.keySet();
-        Vector<Song> tmp = new Vector<Song>();
-        for(String key : keys)
-        {
-//            tmp.add(key);
-            User u = uMngr.findUser(key);
-            if(u.getPerm() != PermType.NONE || (u.getPerm() == PermType.FRIENDS && !currUser.isFriendsWith(u)))
-            {
-                List<Song> owned = u.getLibrary().owned();
-                for(Song s : owned)
-                {
-    //                tmp.add(" " + s.toString());
-                    tmp.add(s);
-                }
-            }
-            this.searchList.setListData(tmp.toArray());
-        }
-        
-        this.borrowRequestList.setListData(currUser.getLibrary().getBorrowRequests().toArray());
     }//GEN-LAST:event_loginButtonActionPerformed
 
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
@@ -1165,7 +1165,10 @@ private void playButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
             } else
             {
                 currUser.getLibrary().play(selected);
-                currentlyPlayingLabel.setText("Currently Playing: " + selected.getName());
+                if(currUser.getLibrary().isPlayingSong())
+                	currentlyPlayingLabel.setText("Currently Playing: " + selected.getName());
+                else
+                	currentlyPlayingLabel.setText("Song is loaned and cannot be played");
             }
         } else
         {
