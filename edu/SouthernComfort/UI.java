@@ -808,8 +808,15 @@ public class UI extends JFrame {
         User friend = uMngr.findUser(f);
         if(friend != null)
         {
-            currUser.sendInvite(friend);
-            JOptionPane.showMessageDialog(this, "Invite sent");
+            if(currUser.getName() == friend.getName())
+            {
+            	JOptionPane.showMessageDialog(this, "Cannot send invite to self");
+            }
+            else
+            {
+            	currUser.sendInvite(friend);
+            	JOptionPane.showMessageDialog(this, "Invite sent");
+            }
         } else
         {
             JOptionPane.showMessageDialog(this, "User does not exist");
